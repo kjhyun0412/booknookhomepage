@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로그인 | BookNook 북눅</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="login">
+<main class="sub">
+  <div class="wrap">
+    <div class="page-head" style="text-align:center">
+      <h1>로그인</h1>
+      <p>북눅 회원이 되면 적립금과 주문 내역을 한곳에서 볼 수 있어요.</p>
+    </div>
+    <form class="auth" id="loginForm" novalidate>
+      <label class="field"><span>이메일</span><input type="email" name="email" autocomplete="username" placeholder="example@email.com" required></label>
+      <label class="field"><span>비밀번호</span><input type="password" name="pw" autocomplete="current-password" placeholder="비밀번호" required></label>
+      <label class="check"><input type="checkbox" name="keep"> 로그인 상태 유지</label>
+      <p class="form-err" id="err" role="alert"></p>
+      <button class="btn" type="submit">로그인</button>
+      <a class="btn line" href="join.html">회원가입하고 2,000P 받기</a>
+      <div class="auth-links"><a href="#" data-mock="아이디 찾기">아이디 찾기</a><a href="#" data-mock="비밀번호 찾기">비밀번호 찾기</a><a href="cart.html">비회원 주문조회</a></div>
+      <p class="note">목업 페이지라 실제 인증은 하지 않아요. 아무 이메일·비밀번호로 로그인돼요.</p>
+    </form>
+  </div>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+if (User.get()) location.replace('mypage.html');
+$('#loginForm').onsubmit = e => {
+  e.preventDefault();
+  const f = e.target, email = f.email.value.trim();
+  if (!/^\S+@\S+\.\S+$/.test(email)) return $('#err').textContent = '이메일 형식을 확인해 주세요.';
+  if (!f.pw.value) return $('#err').textContent = '비밀번호를 입력해 주세요.';
+  User.login(email.split('@')[0], email);
+  location.href = params.get('next') || 'mypage.html';
+};
+</script>
+</body>
+</html>

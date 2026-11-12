@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한글 설명서 다운로드 | BookNook 북눅</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="manual">
+<main class="sub">
+  <div class="wrap">
+    <div class="page-head">
+      <nav class="crumb" aria-label="현재 위치"><a href="index.html">홈</a><span>›</span><span>한글 설명서 다운로드</span></nav>
+      <h1>한글 설명서 다운로드</h1>
+      <p>상품별 조립 설명서를 PDF로 받을 수 있어요. 부품 번호와 사진이 함께 들어 있어요.</p>
+    </div>
+    <div class="manual-grid" id="manuals"></div>
+
+    <section class="section" style="padding-bottom:0">
+      <div class="notice-wrap">
+        <div class="sec-head" style="text-align:left"><p class="eyebrow">FAQ</p><h2>조립 전에 알아두세요</h2></div>
+        <div class="notice-list">
+          <details><summary><span class="n-tag">준비물</span><span class="t">따로 준비해야 할 것이 있나요?</span><svg class="i chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="body">LED 조명용 건전지(AAA)는 포함되어 있지 않아요. 접착제·핀셋·커터칼 같은 도구는 집에 있는 것을 사용해 주세요.</div></details>
+          <details><summary><span class="n-tag">조립</span><span class="t">부품이 잘 안 떨어져요.</span><svg class="i chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="body">판재 연결 부분을 커터칼로 살짝 그은 뒤 떼어 내면 깔끔하게 분리돼요. 힘으로 떼면 부품이 찢어질 수 있어요.</div></details>
+          <details><summary><span class="n-tag">조명</span><span class="t">LED가 켜지지 않아요.</span><svg class="i chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="body">건전지 방향과 배터리 박스 스위치를 먼저 확인해 주세요. 그래도 켜지지 않으면 <a href="index.html#contact">고객센터</a>로 연락 주시면 부품을 보내드려요.</div></details>
+          <details><summary><span class="n-tag">AS</span><span class="t">부품이 부러지거나 빠져 있어요.</span><svg class="i chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="body">구매 후 6개월 이내라면 사진과 함께 1:1 문의로 접수해 주세요. 해당 부품을 무상으로 보내드려요.</div></details>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+/* PRODUCTS[].manual 에 PDF 경로(예: 'manuals/season.pdf')를 넣으면 실제 다운로드 버튼이 됩니다 */
+$('#manuals').innerHTML = PRODUCTS.map(p => `
+  <article class="m-card">
+    <a href="product.html?id=${p.id}"><img src="${p.img}" alt="${p.name}" loading="lazy" width="900" height="563"></a>
+    <div class="b">
+      <span class="eyebrow">${p.edition}</span>
+      <b>${p.name}</b>
+      <small>${p.spec['난이도']} · ${p.spec['소요 시간']}</small>
+      ${p.manual
+        ? `<a class="btn" href="${p.manual}" download>${I('download')} PDF 다운로드</a>`
+        : `<button class="btn line" type="button" data-mock="${p.name} 설명서 PDF">${I('download')} PDF 준비 중</button>`}
+    </div>
+  </article>`).join('');
+</script>
+</body>
+</html>

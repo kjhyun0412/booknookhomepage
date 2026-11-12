@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>검색 | BookNook 북눅</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="search">
+<main class="sub">
+  <div class="wrap">
+    <div class="page-head">
+      <nav class="crumb" aria-label="현재 위치"><a href="index.html">홈</a><span>›</span><span>검색</span></nav>
+      <h1 id="title">검색</h1>
+      <form class="search-form" action="search.html" method="get" role="search" style="margin:18px 0 0;max-width:560px">
+        <label class="sr-only" for="q2">상품 검색</label>
+        <input id="q2" name="q" type="search" placeholder="검색어를 입력하세요">
+        <button class="btn" type="submit">검색</button>
+      </form>
+    </div>
+    <div id="result"></div>
+  </div>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+const q = (params.get('q') || '').trim();
+$('#q2').value = q;
+if (q){
+  const words = q.toLowerCase().split(/\s+/);
+  const hits = PRODUCTS.filter(p => {
+    const hay = [p.name, p.en, p.edition, p.desc, p.lead, p.keywords].join(' ').toLowerCase();
+    return words.every(w => hay.includes(w));
+  });
+  $('#title').innerHTML = `'${esc(q)}' 검색 결과 <small>${hits.length}개</small>`;
+  $('#result').innerHTML = hits.length
+    ? `<div class="grid">${hits.map(productCard).join('')}</div>`
+    : `<div class="empty">${I('search')}<b>검색 결과가 없어요</b><p>다른 검색어로 찾아보거나 전체 상품을 둘러보세요.</p><a class="btn" href="index.html#pick">전체 상품 보기</a></div>`;
+} else {
+  $('#result').innerHTML = `<div class="grid">${PRODUCTS.map(productCard).join('')}</div>`;
+}
+observe();
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>마이페이지 | BookNook 북눅</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="mypage">
+<main class="sub">
+  <div class="wrap">
+    <div class="page-head">
+      <nav class="crumb" aria-label="현재 위치"><a href="index.html">홈</a><span>›</span><span>마이페이지</span></nav>
+      <h1>마이페이지</h1>
+    </div>
+    <div id="myBody"></div>
+  </div>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+function renderMy(){
+  const u = User.get(), wish = Wish.ids().map(product);
+  const hello = u
+    ? `<div class="my-hello"><div><h2>${esc(u.name)}님, 반가워요!</h2><p>${esc(u.email || '')}</p></div><a class="btn" href="index.html" data-action="logout">로그아웃</a></div>`
+    : `<div class="my-hello"><div><h2>로그인이 필요해요</h2><p>로그인하면 적립금과 주문 내역을 볼 수 있어요. 찜과 장바구니는 로그인 없이도 쓸 수 있어요.</p></div>
+       <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn" href="login.html?next=mypage.html">로그인</a><a class="btn" style="background:none;border-color:currentColor;color:inherit" href="join.html">회원가입</a></div></div>`;
+  $('#myBody').innerHTML = `
+    ${hello}
+    <div class="tiles">
+      <a class="tile" href="${u ? '#' : 'join.html'}" ${u ? 'data-mock="적립금 내역"' : ''}><span>적립금</span><b>${u ? (u.points || 0).toLocaleString() + 'P' : '-'}</b></a>
+      <a class="tile" href="#orders"><span>주문 · 배송</span><b>0건</b></a>
+      <a class="tile" href="wishlist.html"><span>찜한 상품</span><b>${wish.length}개</b></a>
+      <a class="tile" href="cart.html"><span>장바구니</span><b>${Cart.count()}개</b></a>
+    </div>
+    <section class="my-sec">
+      <h3>찜한 상품 <a href="wishlist.html">전체보기 →</a></h3>
+      ${wish.length ? `<div class="grid">${wish.slice(0, 3).map(productCard).join('')}</div>`
+        : `<p class="empty-line">찜한 상품이 없어요. <a href="index.html#pick">상품 둘러보기 →</a></p>`}
+    </section>
+    <section class="my-sec" id="orders">
+      <h3>최근 주문 내역</h3>
+      <p class="empty-line">최근 주문 내역이 없어요.</p>
+    </section>
+    <section class="my-sec">
+      <h3>쇼핑 · 고객지원</h3>
+      <ul class="my-menu">
+        <li><a href="wishlist.html">찜한 상품 ${I('right')}</a></li>
+        <li><a href="cart.html">장바구니 ${I('right')}</a></li>
+        <li><a href="manual.html">한글 설명서 다운로드 ${I('right')}</a></li>
+        <li><a href="notice.html">공지사항 ${I('right')}</a></li>
+        <li><a href="mailto:hello@booknook.example?subject=%5B%EB%B6%81%EB%88%85%5D%201%3A1%20%EB%AC%B8%EC%9D%98">1:1 문의하기 ${I('right')}</a></li>
+        <li><a href="#" data-mock="회원정보 수정">회원정보 수정 ${I('right')}</a></li>
+      </ul>
+    </section>`;
+  observe();
+}
+document.addEventListener('bn:wish', renderMy);
+renderMy();
+if (params.get('welcome')) toast('가입을 환영해요! 적립금 2,000P가 지급됐어요');
+</script>
+</body>
+</html>

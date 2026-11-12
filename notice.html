@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>공지사항 | BookNook 북눅</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="notice">
+<main class="sub">
+  <div class="wrap notice-wrap">
+    <div class="page-head">
+      <nav class="crumb" aria-label="현재 위치"><a href="index.html">홈</a><span>›</span><span>공지사항</span></nav>
+      <h1>공지사항</h1>
+      <p>이벤트, 배송, 교환·AS 소식을 알려드려요.</p>
+    </div>
+    <div class="pills left" id="filters" role="group" aria-label="분류"></div>
+    <div class="notice-list" id="list"></div>
+  </div>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+const tags = ['전체', ...new Set(NOTICES.map(n => n.tag))];
+let cur = '전체';
+$('#filters').innerHTML = tags.map(t => `<button type="button" data-tag="${t}" aria-pressed="${t === cur}">${t}</button>`).join('');
+function render(){
+  $('#list').innerHTML = NOTICES.map((n, i) => ({ ...n, i })).filter(n => cur === '전체' || n.tag === cur).map(n => `
+    <details id="n${n.i}">
+      <summary><span class="n-tag ${n.hot ? 'hot' : ''}">${n.tag}</span><span class="t">${n.title}</span><time datetime="${n.date}">${n.date.replace(/-/g,'.')}</time>
+        <svg class="i chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="body">${n.body}</div>
+    </details>`).join('');
+}
+$('#filters').addEventListener('click', e => {
+  const b = e.target.closest('[data-tag]'); if (!b) return;
+  cur = b.dataset.tag; $$('#filters button').forEach(x => x.setAttribute('aria-pressed', x === b)); render();
+});
+render();
+function openHash(){ const d = location.hash && document.querySelector(location.hash); if (d && d.tagName === 'DETAILS'){ d.open = true; d.scrollIntoView(); } }
+addEventListener('hashchange', openHash);
+openHash();
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>찜한 상품 | BookNook 북눅</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="wishlist">
+<main class="sub">
+  <div class="wrap">
+    <div class="page-head">
+      <nav class="crumb" aria-label="현재 위치"><a href="index.html">홈</a><span>›</span><a href="mypage.html">마이페이지</a><span>›</span><span>찜한 상품</span></nav>
+      <h1>찜한 상품 <small id="wishCount"></small></h1>
+      <p>하트를 누른 상품을 모아 볼 수 있어요. 하트를 다시 누르면 목록에서 빠집니다.</p>
+    </div>
+    <div id="wishBody"></div>
+  </div>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+function renderWish(){
+  const items = Wish.ids().map(product);
+  $('#wishCount').textContent = items.length ? `${items.length}개` : '';
+  if (!items.length){
+    $('#wishBody').innerHTML = `
+      <div class="empty">${I('heart')}<b>아직 찜한 상품이 없어요</b><p>마음에 드는 북눅의 하트를 눌러 보세요.</p>
+        <a class="btn" href="index.html#pick">상품 둘러보기</a></div>`;
+    return;
+  }
+  const total = items.reduce((n, p) => n + p.price, 0);
+  $('#wishBody').innerHTML = `
+    <div class="list-head">
+      <p>찜한 상품 <b>${items.length}개</b> · 합계 <b>${won(total)}</b></p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn line" type="button" id="clearWish">전체 삭제</button>
+        <button class="btn" type="button" id="allToCart">${I('bag')} 전체 장바구니 담기</button>
+      </div>
+    </div>
+    <div class="grid">${items.map(productCard).join('')}</div>`;
+  $('#allToCart').onclick = () => { items.forEach(p => Cart.add(p.id)); toast(`${items.length}개 상품을 장바구니에 담았어요`, 'cart.html', '장바구니 보기'); };
+  $('#clearWish').onclick = () => { if (confirm('찜한 상품을 모두 삭제할까요?')) Wish.save([]); };
+  observe();
+}
+document.addEventListener('bn:wish', renderWish);
+addEventListener('storage', renderWish);
+renderWish();
+</script>
+</body>
+</html>

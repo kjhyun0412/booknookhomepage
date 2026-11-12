@@ -1,0 +1,9 @@
+﻿# 홈페이지에 필요 없는 파일은 올리지 않아요
+*.lnk
+/season.png
+/story.png
+/street.png
+.claude/
+*.log
+Thumbs.db
+.DS_Store

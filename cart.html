@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>장바구니 | BookNook 북눅</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="cart">
+<main class="sub">
+  <div class="wrap">
+    <div class="page-head">
+      <nav class="crumb" aria-label="현재 위치"><a href="index.html">홈</a><span>›</span><span>장바구니</span></nav>
+      <h1>장바구니 <small id="cartTitleCount"></small></h1>
+    </div>
+    <div id="cartBody"></div>
+  </div>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+function renderCart(){
+  const items = Cart.items();
+  $('#cartTitleCount').textContent = items.length ? `${Cart.count()}개` : '';
+  if (!items.length){
+    $('#cartBody').innerHTML = `
+      <div class="empty">${I('bag')}<b>장바구니가 비어 있어요</b><p>책장에 들일 작은 세계를 골라 보세요.</p>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <a class="btn" href="index.html#pick">상품 둘러보기</a>
+          ${Wish.ids().length ? `<a class="btn line" href="wishlist.html">찜한 상품 보기</a>` : ''}
+        </div></div>`;
+    return;
+  }
+  const sub = Cart.subtotal(), ship = sub >= SHIPPING.freeOver ? 0 : SHIPPING.fee;
+  $('#cartBody').innerHTML = `
+    <div class="cart-wrap">
+      <div class="cart-list">
+        ${items.map(({ id, qty }) => { const p = product(id); return `
+          <div class="cart-row">
+            <a href="product.html?id=${id}"><img src="${p.img}" alt="${p.name}" width="96" height="120"></a>
+            <div>
+              <span class="ed">${p.edition}</span>
+              <a class="nm" href="product.html?id=${id}">${p.name}</a>
+              <span class="up">${won(p.price)} / 개</span>
+              <div class="ctrl">
+                <div class="qty" aria-label="${p.name} 수량">
+                  <button type="button" data-step="-1" data-id="${id}" aria-label="수량 줄이기" ${qty <= 1 ? 'disabled' : ''}>${I('minus')}</button>
+                  <output>${qty}</output>
+                  <button type="button" data-step="1" data-id="${id}" aria-label="수량 늘리기">${I('plus')}</button>
+                </div>
+                <button class="link-btn" type="button" data-wish="${id}" aria-pressed="${Wish.has(id)}">${Wish.has(id) ? '찜 해제' : '찜하기'}</button>
+                <button class="link-btn" type="button" data-remove="${id}">삭제</button>
+              </div>
+            </div>
+            <div class="line-total">${won(p.price * qty)}</div>
+          </div>`; }).join('')}
+      </div>
+      <aside class="summary" aria-label="결제 금액">
+        <h2>결제 예정 금액</h2>
+        <dl>
+          <dt>상품 금액</dt><dd>${won(sub)}</dd>
+          <dt>배송비</dt><dd>${ship ? won(ship) : '무료'}</dd>
+          <dt class="grand">합계</dt><dd class="grand">${won(sub + ship)}</dd>
+        </dl>
+        ${ship ? `<p class="free-hint">${won(SHIPPING.freeOver - sub)} 더 담으면 무료배송!</p>` : `<p class="free-hint">무료배송 적용 중</p>`}
+        <button class="btn accent" type="button" data-mock="주문서 작성">주문하기</button>
+        <a class="btn line" href="index.html#pick">계속 쇼핑하기</a>
+      </aside>
+    </div>`;
+}
+$('#cartBody').addEventListener('click', e => {
+  const s = e.target.closest('[data-step]');
+  if (s){ const it = Cart.items().find(i => i.id === s.dataset.id); Cart.setQty(s.dataset.id, it.qty + +s.dataset.step); renderCart(); }
+  const r = e.target.closest('[data-remove]');
+  if (r){ Cart.remove(r.dataset.remove); toast('장바구니에서 삭제했어요'); renderCart(); }
+});
+document.addEventListener('bn:wish', renderCart);
+addEventListener('storage', renderCart);
+renderCart();
+</script>
+</body>
+</html>

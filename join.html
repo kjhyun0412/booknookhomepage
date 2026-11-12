@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회원가입 | BookNook 북눅</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="join">
+<main class="sub">
+  <div class="wrap">
+    <div class="page-head" style="text-align:center">
+      <h1>회원가입</h1>
+      <p>가입하고 첫 주문부터 적립금을 사용해 보세요.</p>
+    </div>
+    <form class="auth" id="joinForm" novalidate>
+      <div class="auth-gift"><svg class="i" viewBox="0 0 24 24"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg><span>가입 즉시 <b>적립금 2,000P</b> 지급</span></div>
+      <label class="field"><span>이름</span><input name="name" autocomplete="name" placeholder="홍길동" required></label>
+      <label class="field"><span>이메일</span><input type="email" name="email" autocomplete="email" placeholder="example@email.com" required></label>
+      <label class="field"><span>비밀번호</span><input type="password" name="pw" autocomplete="new-password" placeholder="8자 이상" required></label>
+      <label class="field"><span>비밀번호 확인</span><input type="password" name="pw2" autocomplete="new-password" placeholder="한 번 더 입력" required></label>
+      <label class="check"><input type="checkbox" name="agree"> [필수] 이용약관 및 개인정보 수집·이용에 동의합니다.</label>
+      <label class="check"><input type="checkbox" name="mkt"> [선택] 신상품·이벤트 소식을 받아볼게요.</label>
+      <p class="form-err" id="err" role="alert"></p>
+      <button class="btn" type="submit">가입하기</button>
+      <div class="auth-links"><span>이미 회원이신가요?</span><a href="login.html"><b>로그인</b></a></div>
+      <p class="note">목업 페이지라 입력한 정보는 이 브라우저에만 저장돼요.</p>
+    </form>
+  </div>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+$('#joinForm').onsubmit = e => {
+  e.preventDefault();
+  const f = e.target, err = m => $('#err').textContent = m;
+  if (!f.name.value.trim()) return err('이름을 입력해 주세요.');
+  if (!/^\S+@\S+\.\S+$/.test(f.email.value.trim())) return err('이메일 형식을 확인해 주세요.');
+  if (f.pw.value.length < 8) return err('비밀번호는 8자 이상으로 입력해 주세요.');
+  if (f.pw.value !== f.pw2.value) return err('비밀번호가 서로 달라요.');
+  if (!f.agree.checked) return err('필수 약관에 동의해 주세요.');
+  User.login(f.name.value.trim(), f.email.value.trim());
+  location.href = 'mypage.html?welcome=1';
+};
+</script>
+</body>
+</html>

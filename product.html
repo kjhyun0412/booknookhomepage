@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>상품 상세 | BookNook 북눅</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="product">
+<main class="sub">
+  <div class="wrap">
+    <div class="page-head" style="border:0;margin-bottom:8px">
+      <nav class="crumb" aria-label="현재 위치" id="crumb"></nav>
+    </div>
+    <div id="pdBody"></div>
+  </div>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+const p = product(params.get('id')) || PRODUCTS[0];
+// 모든 상품에 공통으로 보이는 질문 (상품별 질문은 data.js 의 faq 에 적어요)
+const COMMON_FAQ = p => [
+  ['배송', '배송은 얼마나 걸리나요?', `평일 오후 2시 이전 주문은 당일 출고돼요. ${won(SHIPPING.freeOver)} 이상 구매하면 무료배송이고, 그 미만은 ${won(SHIPPING.fee)}이 붙어요.`],
+  ['교환·환불', '교환·환불이 되나요?', '수령 후 7일 이내, 조립하지 않은 상태라면 교환·환불할 수 있어요. 조립을 시작한 뒤에는 어렵지만 부품 문제는 AS로 도와드려요.'],
+  ['AS', '부품이 부러지거나 빠져 있어요.', '구매 후 6개월 이내라면 사진과 함께 <a href="index.html#contact">고객센터</a>로 알려 주세요. 해당 부품을 무상으로 보내드려요.'],
+  ['설명서', '조립 설명서는 어디서 받나요?', '상품에 한글 설명서가 들어 있고, <a href="manual.html">설명서 다운로드</a> 페이지에서도 받을 수 있어요.']
+];
+let qty = 1;
+document.title = `${p.name} | BookNook 북눅`;
+$('#crumb').innerHTML = `<a href="index.html">홈</a><span>›</span><a href="index.html#pick">전체상품</a><span>›</span><span>${p.edition}</span>`;
+$('#pdBody').innerHTML = `
+  <div class="pd">
+    <div class="pd-img"><img src="${p.img}" alt="${p.name} 북눅 완성 사진" width="900" height="1124"></div>
+    <div class="pd-info">
+      <span class="eyebrow">${p.edition}</span>
+      <h1>${p.name}</h1>
+      <p class="en">${p.en} · 리뷰 ${p.reviews}</p>
+      ${priceHTML(p)}
+      <p class="lead">${p.desc}</p>
+      <table class="spec"><tbody>
+        ${Object.entries(p.spec).map(([k, v]) => `<tr><th scope="row">${k}</th><td>${v}</td></tr>`).join('')}
+        <tr><th scope="row">배송</th><td>${won(SHIPPING.freeOver)} 이상 무료배송 · 평일 오후 2시 이전 주문 당일 출고</td></tr>
+      </tbody></table>
+      <div class="qty-row">
+        <span>수량</span>
+        <div class="qty">
+          <button type="button" id="minus" aria-label="수량 줄이기" disabled>${I('minus')}</button>
+          <output id="qtyOut">1</output>
+          <button type="button" id="plus" aria-label="수량 늘리기">${I('plus')}</button>
+        </div>
+      </div>
+      <div class="total-row"><span>총 상품 금액</span><strong id="totalOut">${won(p.price)}</strong></div>
+      <div class="pd-btns">
+        <button class="btn wish-btn" type="button" data-wish="${p.id}" aria-pressed="${Wish.has(p.id)}" aria-label="찜하기">${I('heart')}</button>
+        <button class="btn line" type="button" data-cart="${p.id}" id="cartBtn">장바구니</button>
+        <button class="btn accent" type="button" data-buy="${p.id}" id="buyBtn">바로 구매하기</button>
+      </div>
+      <div class="share">
+        <button class="share-btn" type="button" id="shareBtn" aria-expanded="false" aria-controls="sharePanel">${I('share')} 공유하기</button>
+        <div class="share-panel" id="sharePanel" hidden>
+          <p class="share-url"><input id="shareUrl" type="text" readonly aria-label="공유 링크" value=""><button type="button" id="copyBtn">링크 복사</button></p>
+          <div class="share-sns">
+            <a id="shFb" target="_blank" rel="noopener noreferrer">페이스북</a>
+            <a id="shTw" target="_blank" rel="noopener noreferrer">X(트위터)</a>
+            <a id="shMail">이메일</a>
+            <button type="button" id="shKakao">카카오톡</button>
+          </div>
+        </div>
+      </div>
+      <p class="ship-note">한글 설명서는 <a href="manual.html">설명서 다운로드</a> 페이지에서도 받을 수 있어요.</p>
+    </div>
+  </div>
+  <section class="rec" aria-labelledby="recT">
+    <div class="rec-head"><h2 id="recT">같이 보면 좋은 에디션</h2><span class="rec-sub">다른 에디션도 만나보세요</span></div>
+    <div class="rec-wrap">
+      <ul class="rec-row" id="recRow">
+        ${PRODUCTS.filter(x => x.id !== p.id).map(o => `
+        <li class="rec-card">
+          <a class="rec-img" href="product.html?id=${o.id}"><img src="${o.img}" alt="${o.name} 북눅 완성 사진" loading="lazy" width="900" height="1124"></a>
+          <button class="wish" type="button" data-wish="${o.id}" aria-pressed="${Wish.has(o.id)}" aria-label="${o.name} 찜하기">${I('heart')}</button>
+          <strong class="rec-price">${won(o.price)}</strong>
+          <a class="rec-name" href="product.html?id=${o.id}">${o.name}<small>${o.en}</small></a>
+          <span class="rec-meta">${o.edition} · 리뷰 ${o.reviews}</span>
+        </li>`).join('')}
+      </ul>
+      <button class="rec-next" id="recNext" type="button" aria-label="다음 에디션 보기" hidden>${I('right')}</button>
+    </div>
+  </section>
+
+  <nav class="pd-tabs" aria-label="상세 정보 이동">
+    <a href="#story">스토리</a><a href="#reviews">리뷰 <em>${p.reviews}</em></a><a href="#faq">자주 묻는 질문</a>
+  </nav>
+
+  ${p.landing ? `
+  <div class="pd-story-wrap" id="story">
+    <iframe class="pd-story-frame" id="storyFrame" src="${p.landing}?embed=1" title="${p.name} 스토리" scrolling="no"></iframe>
+    <div class="pd-fade" aria-hidden="true"></div>
+  </div>
+  <button class="pd-more" id="moreBtn" type="button" aria-expanded="false" aria-controls="story">스토리 더보기 ${I('down')}</button>`
+  : `
+  <section class="pd-sec" id="story">
+    <p class="eyebrow">STORY</p>
+    <h2>${p.name}의 이야기</h2>
+    <p class="lead pd-lead">${p.lead}</p>
+  </section>`}
+
+  <section class="pd-sec" id="reviews">
+    <p class="eyebrow">REVIEW</p>
+    <h2>구매 후기</h2>
+    ${(() => { const R = REVIEWS[p.id]; if (!R) return ''; const st = n => '★'.repeat(n) + '☆'.repeat(5 - n); return `
+    <div class="rv-sum"><strong>${R.rating.toFixed(1)}</strong><span class="rv-stars" aria-label="별점 5점 만점에 ${R.rating}점">${st(Math.round(R.rating))}</span><span>후기 ${p.reviews}개</span></div>
+    <ul class="rv-list">${R.items.map(r => `
+      <li class="rv-item"><div class="rv-top"><span class="rv-stars" aria-label="${r.stars}점">${st(r.stars)}</span><span class="rv-tag">${r.tag}</span></div>
+        <p>${r.text}</p><small>${r.name} · ${r.date.replace(/-/g, '.')}</small></li>`).join('')}</ul>`; })()}
+  </section>
+
+  <section class="pd-sec" id="faq">
+    <p class="eyebrow">FAQ</p>
+    <h2>자주 묻는 질문</h2>
+    <div class="notice-list">
+      ${[...(p.faq || []), ...COMMON_FAQ(p)].map(([tag, q, a]) => `
+      <details><summary><span class="n-tag">${tag}</span><span class="t">${q}</span>${I('down').replace('class="i"', 'class="i chev"')}</summary><div class="body">${a}</div></details>`).join('')}
+    </div>
+  </section>`;
+// 공유하기: 링크 복사 · 페이스북 · X · 이메일 · 카카오톡(휴대폰은 기기 공유창)
+(() => {
+  const url = location.href.split('#')[0], title = `${p.name} | BookNook 북눅`, text = `${p.name} — ${p.desc}`;
+  const btn = $('#shareBtn'), panel = $('#sharePanel');
+  $('#shareUrl').value = url;
+  $('#shFb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+  $('#shTw').href = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text);
+  $('#shMail').href = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(text + ' ' + url);
+  const toggle = open => { panel.hidden = !open; btn.setAttribute('aria-expanded', open); };
+  btn.onclick = async () => {
+    if (navigator.share && matchMedia('(max-width:767px)').matches){ try { await navigator.share({ title, text, url }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+    toggle(panel.hidden);
+  };
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(url); }
+    catch (e) { const i = $('#shareUrl'); i.select(); document.execCommand('copy'); }
+    toast('링크를 복사했어요');
+  };
+  $('#copyBtn').onclick = copy;
+  $('#shareUrl').onclick = e => e.target.select();
+  $('#shKakao').onclick = async () => {
+    if (navigator.share){ try { await navigator.share({ title, text, url }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+    await copy(); toast('링크를 복사했어요. 카카오톡에 붙여넣어 보내 주세요');
+  };
+  document.addEventListener('click', e => { if (!panel.hidden && !e.target.closest('.share')) toggle(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden){ toggle(false); btn.focus(); } });
+})();
+// 스토리 페이지(iframe) 높이를 내용에 맞추고, 처음에는 일부만 보여 준 뒤 "스토리 더보기"로 펼치기
+const wrap = $('#story.pd-story-wrap'), more = $('#moreBtn');
+addEventListener('message', e => {
+  const f = $('#storyFrame');
+  if (f && e.source === f.contentWindow && e.data && e.data.bnH) f.style.height = e.data.bnH + 'px';
+});
+if (wrap && more){
+  more.onclick = () => {
+    const open = wrap.classList.toggle('open');
+    more.setAttribute('aria-expanded', open);
+    more.innerHTML = (open ? '스토리 접기 ' : '스토리 더보기 ') + I(open ? 'up' : 'down');
+    if (!open) wrap.scrollIntoView({ block:'start' });
+  };
+}
+</script>
+</body>
+</html>

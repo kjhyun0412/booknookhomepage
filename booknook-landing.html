@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>달을 수확하는 농장 · 달도 따다 줄게</title>
+<meta name="description" content="아이를 재운 밤, 나를 위한 달 하나. 불을 켜면 사다리 위 아이가 말을 건네는 북눅 · 미니어처하우스 · 무드등.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0b1230;
+    --night-2:#111b44;
+    --night-3:#18245a;
+    --gold:#f4c95d;
+    --gold-soft:#ffe6a3;
+    --peach:#f2b8a2;
+    --text:#eef0fa;
+    --muted:#a9b0d3;
+    --line:rgba(244,201,93,.22);
+    --serif:'Gowun Batang','Noto Serif KR',serif;
+    --sans:'Noto Sans KR',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);color:var(--text);background:var(--night);
+    line-height:1.75;word-break:keep-all;-webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:min(1040px,100% - 40px);margin-inline:auto}
+  section{padding:96px 0;position:relative}
+  .eyebrow{font-size:.82rem;letter-spacing:.18em;color:var(--gold);margin-bottom:14px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.6rem,4.2vw,2.3rem);line-height:1.4;margin-bottom:18px}
+  .lead{color:var(--muted);font-size:1.02rem;max-width:620px}
+  .center{text-align:center}
+  .center .lead{margin-inline:auto}
+
+  /* stars */
+  .stars{position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(1.5px 1.5px at 12% 18%,#fff8 50%,transparent 51%),
+      radial-gradient(1px 1px at 78% 12%,#fff9 50%,transparent 51%),
+      radial-gradient(1.5px 1.5px at 62% 40%,#ffe6a3aa 50%,transparent 51%),
+      radial-gradient(1px 1px at 30% 62%,#fff8 50%,transparent 51%),
+      radial-gradient(1.5px 1.5px at 90% 70%,#fff8 50%,transparent 51%),
+      radial-gradient(1px 1px at 8% 86%,#ffe6a3aa 50%,transparent 51%),
+      radial-gradient(1px 1px at 48% 90%,#fff8 50%,transparent 51%),
+      linear-gradient(180deg,var(--night) 0%,#0e1739 60%,#0b1230 100%);
+    animation:twinkle 6s ease-in-out infinite alternate}
+  @keyframes twinkle{from{opacity:.75}to{opacity:1}}
+
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);
+    background:rgba(11,18,48,.72);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .brand{font-family:var(--serif);font-weight:700;color:var(--gold-soft)}
+  .nav a.btn-sm{font-size:.86rem;padding:8px 16px;border-radius:999px;border:1px solid var(--gold);color:var(--gold)}
+  .nav a.btn-sm:hover{background:var(--gold);color:var(--night)}
+
+  /* hero */
+  .hero{padding:72px 0 88px}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center}
+  .hero h1{font-family:var(--serif);font-size:clamp(2rem,5.6vw,3.4rem);line-height:1.3;margin-bottom:22px}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero p.sub{color:var(--muted);font-size:1.05rem;margin-bottom:12px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 32px}
+  .tags span{font-size:.8rem;padding:5px 12px;border-radius:999px;background:rgba(244,201,93,.1);border:1px solid var(--line);color:var(--gold-soft)}
+  .btn{display:inline-block;padding:15px 30px;border-radius:999px;font-weight:700;background:var(--gold);color:#241a00;
+    box-shadow:0 0 0 0 rgba(244,201,93,.5);transition:transform .2s,box-shadow .3s;border:0;cursor:pointer;font-size:1rem;font-family:inherit}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(244,201,93,.35)}
+  .btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold);margin-left:10px}
+  .btn.ghost:hover{background:rgba(244,201,93,.12);box-shadow:none}
+
+  .mock{position:relative}
+  .mock-frame{border-radius:22px;overflow:hidden;border:1px solid var(--line);
+    box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 90px rgba(244,201,93,.12)}
+  .mock-frame img{width:100%;height:auto;transition:filter .8s ease}
+  .mock.off img{filter:brightness(.38) saturate(.7)}
+  .light-btn{position:absolute;left:50%;bottom:-20px;transform:translateX(-50%);
+    padding:10px 20px;border-radius:999px;border:1px solid var(--gold);background:var(--night);color:var(--gold);
+    font-family:inherit;font-size:.9rem;cursor:pointer;white-space:nowrap}
+  .light-btn:hover{background:var(--gold);color:var(--night)}
+  .caption{font-size:.74rem;color:var(--muted);text-align:center;margin-top:36px}
+
+  /* quote */
+  .quote{background:linear-gradient(180deg,transparent,rgba(24,36,90,.45),transparent)}
+  .quote blockquote{font-family:var(--serif);font-size:clamp(1.3rem,3.6vw,2rem);line-height:1.7;text-align:center}
+  .quote blockquote small{display:block;font-size:.95rem;color:var(--muted);margin-bottom:14px;font-family:var(--sans)}
+  .quote blockquote b{color:var(--gold);font-weight:700}
+
+  /* story */
+  .story .wrap{max-width:680px}
+  .story p{font-family:var(--serif);font-size:1.1rem;color:#dfe3f7;margin-bottom:22px;line-height:2}
+  .story p.big{color:var(--gold-soft);font-size:1.3rem;margin-block:34px;text-align:center}
+  .story p.end{color:var(--muted);font-size:1rem}
+
+  /* cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+  .card{background:linear-gradient(160deg,var(--night-2),var(--night-3));border:1px solid var(--line);border-radius:18px;padding:28px 24px}
+  .card .ic{font-size:1.7rem;margin-bottom:12px}
+  .card h3{font-family:var(--serif);font-size:1.12rem;margin-bottom:8px;color:var(--gold-soft)}
+  .card p{font-size:.94rem;color:var(--muted)}
+
+  /* silhouettes */
+  .sil-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+  .sil{background:var(--night-2);border:1px solid var(--line);border-radius:18px;padding:24px 14px 20px;text-align:center}
+  .sil svg{width:76px;height:96px;margin:0 auto 10px;display:block}
+  .sil h3{font-family:var(--serif);font-size:1.05rem;margin-bottom:2px}
+  .sil .for{font-size:.82rem;color:var(--gold)}
+  .sil .opt{display:inline-block;margin-top:10px;font-size:.72rem;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.07);color:var(--muted)}
+  .sil .opt.basic{background:var(--gold);color:#241a00;font-weight:700}
+  .notes{margin-top:30px;display:grid;gap:10px}
+  .notes li{list-style:none;padding:14px 18px;border-radius:12px;background:rgba(255,255,255,.04);font-size:.94rem;color:var(--muted)}
+  .notes li b{color:var(--gold-soft)}
+
+  /* engrave */
+  .engrave{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .book-side{background:linear-gradient(135deg,#142059,#0c1540);border:1px solid #c9a24a;border-radius:6px 14px 14px 6px;
+    padding:46px 30px;text-align:center;box-shadow:inset 6px 0 14px rgba(0,0,0,.4),0 18px 50px rgba(0,0,0,.5)}
+  .book-side .moon{font-size:1.6rem}
+  .book-side .name{font-family:var(--serif);color:var(--gold);font-size:1.25rem;letter-spacing:.04em;margin-top:10px;text-shadow:0 0 12px rgba(244,201,93,.5)}
+  .book-side .date{color:var(--gold-soft);font-size:.9rem;opacity:.8;margin-top:4px}
+
+  /* nights */
+  .nights{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+  .night{border:1px solid var(--line);border-radius:18px;padding:26px 22px;background:var(--night-2);position:relative;overflow:hidden}
+  .night .n{font-family:var(--serif);color:var(--gold);font-size:2.2rem;line-height:1}
+  .night h3{margin:8px 0 6px;font-size:1.05rem}
+  .night p{font-size:.92rem;color:var(--muted)}
+  .night::after{content:"";position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;
+    box-shadow:inset -14px 6px 0 0 rgba(244,201,93,.25)}
+  .compare{margin-top:30px;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .compare div{display:grid;grid-template-columns:1fr 1fr 1fr;padding:16px 20px;font-size:.94rem;border-bottom:1px solid var(--line)}
+  .compare div:last-child{border-bottom:0}
+  .compare .h{background:rgba(244,201,93,.08);color:var(--gold);font-weight:700}
+  .compare span:nth-child(3){color:var(--gold-soft)}
+  .ph{color:var(--gold);border-bottom:1px dashed var(--gold)}
+
+  /* gift */
+  .gift-list{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+  .gift{padding:26px 22px;border-radius:18px;background:linear-gradient(160deg,#1a1f4d,#241a46);border:1px solid rgba(242,184,162,.28)}
+  .gift .to{font-size:.8rem;color:var(--peach);margin-bottom:8px}
+  .gift p{font-family:var(--serif);font-size:1.08rem;line-height:1.7}
+
+  /* rewards */
+  .rewards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+  .reward{border:1px solid var(--line);border-radius:18px;padding:28px 24px;background:var(--night-2);display:flex;flex-direction:column}
+  .reward.best{border-color:var(--gold);box-shadow:0 0 40px rgba(244,201,93,.14);position:relative}
+  .reward .badge{position:absolute;top:-12px;left:22px;background:var(--gold);color:#241a00;font-size:.74rem;font-weight:700;padding:3px 12px;border-radius:999px}
+  .reward h3{font-family:var(--serif);font-size:1.15rem;margin-bottom:6px}
+  .reward .price{font-size:1.5rem;color:var(--gold);font-weight:700;margin:6px 0 14px}
+  .reward ul{list-style:none;font-size:.92rem;color:var(--muted);margin-bottom:18px;flex:1}
+  .reward li{padding-left:18px;position:relative;margin-bottom:6px}
+  .reward li::before{content:"☾";position:absolute;left:0;color:var(--gold);font-size:.8rem}
+  .reward a{text-align:center;padding:11px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);font-size:.92rem}
+  .reward a:hover,.reward.best a{background:var(--gold);color:#241a00}
+
+  /* faq */
+  details{border-bottom:1px solid var(--line);padding:18px 4px}
+  details summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:14px}
+  details summary::after{content:"+";color:var(--gold);font-size:1.3rem;line-height:1}
+  details[open] summary::after{content:"–"}
+  details p{margin-top:10px;color:var(--muted);font-size:.94rem}
+  .faq{max-width:760px;margin:36px auto 0}
+
+  /* cta */
+  .cta{text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(244,201,93,.18),transparent 60%)}
+  .cta .moon-big{width:96px;height:96px;margin:0 auto 26px;border-radius:50%;
+    box-shadow:inset -22px 8px 0 0 var(--gold);filter:drop-shadow(0 0 24px rgba(244,201,93,.6));animation:glow 3.5s ease-in-out infinite alternate}
+  @keyframes glow{from{filter:drop-shadow(0 0 12px rgba(244,201,93,.35))}to{filter:drop-shadow(0 0 34px rgba(244,201,93,.8))}}
+  form.notify{display:flex;gap:10px;max-width:480px;margin:30px auto 0}
+  form.notify input{flex:1;padding:15px 20px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.06);
+    color:var(--text);font-size:1rem;font-family:inherit;outline:none}
+  form.notify input:focus{border-color:var(--gold)}
+  .thanks{display:none;margin-top:24px;color:var(--gold-soft);font-family:var(--serif);font-size:1.1rem}
+  .fine{font-size:.78rem;color:var(--muted);margin-top:14px}
+
+  footer{padding:44px 0 60px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);text-align:center;line-height:1.9}
+
+  /* white sections (breathing space between the navy ones) */
+  section.light{background:#fdfaf3;color:#2a2547}
+  .light .eyebrow{color:#b07d12}
+  .light h2{color:#241f4a}
+  .light .lead{color:#6b6585}
+  .story.light p{color:#3a3560}
+  .story.light p.big{color:#b07d12}
+  .story.light p.end{color:#6b6585}
+  .light details{border-bottom-color:rgba(176,125,18,.25)}
+  .light details summary{color:#241f4a}
+  .light details summary::after{color:#b07d12}
+  .light details p{color:#6b6585}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.stars,.cta .moon-big{animation:none}}
+
+  @media (max-width:820px){
+    section{padding:72px 0}
+    .hero .wrap,.engrave{grid-template-columns:1fr;gap:44px}
+    .cards,.nights,.gift-list,.rewards{grid-template-columns:1fr}
+    .sil-grid{grid-template-columns:repeat(2,1fr)}
+    .btn.ghost{margin:12px 0 0}
+    form.notify{flex-direction:column}
+    .compare div{grid-template-columns:1fr 1fr;row-gap:2px}
+    .compare .h span:nth-child(3),.compare div span:nth-child(3){grid-column:1/-1}
+  }
+  /* 상품 상세 페이지 안에 넣을 때는 머리글·첫 화면·알림 신청·푸터를 숨김 */
+  .embed .nav,.embed .hero,.embed footer,.embed .cta{display:none}
+</style>
+<script>if (/[?&]embed=1/.test(location.search)) document.documentElement.classList.add('embed');</script>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#top" class="brand">☾ 달을 수확하는 농장</a>
+    <a href="product.html?id=story" class="btn-sm" style="margin-left:auto;margin-right:8px">← 상품 상세</a>
+    <a href="#notify" class="btn-sm">오픈 알림 받기</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">BOOK NOOK · MINIATURE HOUSE · MOOD LIGHT</p>
+      <h1>아이를 재운 밤,<br><em>나를 위한 달</em> 하나.</h1>
+      <p class="sub">불을 켜면, 사다리 위의 작은 아이가 달을 향해 손을 뻗어요.</p>
+      <p class="sub">엄마가 가장 듣고 싶었던 말을 책장 위의 작은 장면이 대신 건넵니다.</p>
+      <div class="tags"><span>북눅</span><span>미니어처하우스</span><span>무드등</span><span>세 밤에 완성</span></div>
+      <a href="#notify" class="btn">오픈 알림 받기</a>
+      <a href="#story" class="btn ghost">이야기 보기</a>
+    </div>
+    <div class="mock" id="mock">
+      <div class="mock-frame">
+        <img src="images/mockup.webp" alt="남색 책 모양 북눅 안에서 사다리에 오른 아이 실루엣이 금빛 초승달을 향해 손을 뻗는 장면" width="1122" height="1402">
+      </div>
+      <button class="light-btn" id="lightBtn" type="button">☾ 불 끄기</button>
+      <p class="caption">* 이미지 컷입니다. 실제 제품과 다를 수 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote">
+  <div class="wrap rv">
+    <blockquote>
+      <small>매일 밤 아이에게 건네던 그 말,</small>
+      "우리 아기를 위해서라면 엄마는 <b>달도 따다 줄 수 있어.</b>"
+      <br><br>
+      이번에는 아이가 엄마에게 말합니다.<br>
+      <b>"엄마, 내가 달 따다 줄게."</b>
+    </blockquote>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story light" id="story">
+  <div class="wrap rv">
+    <p class="eyebrow center">STORY</p>
+    <h2 class="center">달을 따다 주고 싶은 밤</h2>
+    <br>
+    <p>아이를 재우고 나면 밤 열 시. 그제야 하루가 내 것이 돼요.</p>
+    <p>"우리 아기를 위해서라면 엄마는 달도 따다 줄 수 있어." 매일 밤 하는 말이지만, 정작 나에게 그런 말을 해 준 사람은 오래 없었어요.</p>
+    <p>그래서 오늘은 나를 위해 작은 농장을 하나 만들기로 해요. 밤에만 문을 여는 농장, 작은 달이 화분에서 싹트고 별이 덩굴에 맺히는 곳.</p>
+    <p>울타리를 세우고, 꽃바구니를 놓고, 마지막으로 사다리 위에 작은 아이를 올려요. 발끝을 들고 달을 향해 손을 뻗은 아이. 꼭 우리 아이 같아요.</p>
+    <p class="big">불을 켜면, 손끝에 닿기 직전의 초승달이 환해져요.<br>"엄마, 내가 달 따다 줄게."</p>
+    <p class="end">아직은 다 차지 않은 달이에요. 아이가 자라는 만큼, 이 밤들도 조금씩 차오를 거예요.</p>
+  </div>
+</section>
+
+<!-- HEARTS -->
+<section>
+  <div class="wrap center rv">
+    <p class="eyebrow">THREE HEARTS</p>
+    <h2>이런 마음으로 고르세요</h2>
+    <div class="cards" style="text-align:left">
+      <div class="card"><div class="ic">💌</div><h3>말로는 못 하는 사람에게</h3><p>고맙다는 말이 낯간지러운 남편이, 아내의 책장에 달 하나를 올려 두었어요.</p></div>
+      <div class="card"><div class="ic">🌙</div><h3>나만의 시간이 필요한 사람에게</h3><p>아이가 잠든 뒤 30분, 이 시간만큼은 아무도 나를 부르지 않아요.</p></div>
+      <div class="card"><div class="ic">🪜</div><h3>오래 두고 보고 싶은 사람에게</h3><p>우리 아이를 닮은 작은 장면. 다 만든 뒤에도 매일 밤 불을 켜게 돼요.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SILHOUETTES -->
+<section>
+  <div class="wrap rv">
+    <div class="center">
+      <p class="eyebrow">SILHOUETTE</p>
+      <h2>우리 아이를 닮은 실루엣 고르기</h2>
+      <p class="lead">사진을 보내지 않아도 괜찮아요. 얼굴을 그리지 않은 실루엣이라 누구의 아이도, 누구의 마음도 될 수 있어요.</p>
+    </div>
+    <div class="sil-grid">
+      <div class="sil">
+        <svg viewBox="0 0 80 100" fill="#f4c95d" aria-hidden="true"><circle cx="40" cy="16" r="9"/><path d="M40 28c-8 0-12 6-12 14v14h24V42c0-8-4-14-12-14zM30 56h20l4 30H26z"/><path d="M52 30l16-16 3 3-16 17z"/></svg>
+        <h3>딸</h3><div class="for">엄마에게</div><span class="opt basic">기본 구성</span>
+      </div>
+      <div class="sil">
+        <svg viewBox="0 0 80 100" fill="#f4c95d" aria-hidden="true"><circle cx="40" cy="16" r="9"/><path d="M28 28h24v28H28zM30 56h8v32h-8zM42 56h8v32h-8z"/><path d="M52 30l16-16 3 3-16 17z"/></svg>
+        <h3>아들</h3><div class="for">엄마에게</div><span class="opt">선택 옵션</span>
+      </div>
+      <div class="sil">
+        <svg viewBox="0 0 80 100" fill="#f4c95d" aria-hidden="true"><circle cx="40" cy="14" r="9"/><path d="M40 26c-9 0-13 7-13 16v14h26V42c0-9-4-16-13-16zM28 56h24l6 40H22z"/><path d="M52 28l17-17 3 3-17 18z"/></svg>
+        <h3>여성 성인</h3><div class="for">연인에게 · 나에게</div><span class="opt">선택 옵션</span>
+      </div>
+      <div class="sil">
+        <svg viewBox="0 0 80 100" fill="#f4c95d" aria-hidden="true"><circle cx="40" cy="14" r="9"/><path d="M26 26h28v32H26zM28 58h10v38H28zM42 58h10v38H42z"/><path d="M54 28l16-17 3 3-17 18z"/></svg>
+        <h3>남성 성인</h3><div class="for">연인에게 · 아내에게</div><span class="opt">선택 옵션</span>
+      </div>
+    </div>
+    <ul class="notes">
+      <li><b>모두 같은 자세.</b> 넷 다 발끝을 들고 달을 향해 손을 뻗은 모습이에요.</li>
+      <li><b>손끝과 달 사이의 작은 틈.</b> 성인 실루엣은 사다리 한두 칸 아래에 세워, 닿기 직전의 그 순간을 똑같이 지켜요.</li>
+      <li><b>이야기는 엄마를 장면에 넣지 않아요.</b> 장면 안에는 아이만 있고, 엄마는 책장 앞에서 불을 켜고 그 말을 듣는 사람이에요.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ENGRAVE -->
+<section class="light">
+  <div class="wrap engrave rv">
+    <div class="book-side" aria-label="이름 각인 예시">
+      <div class="moon">☾ ✦</div>
+      <div class="name">서윤이가 달을 따다 준 밤</div>
+      <div class="date">2021.04.17</div>
+    </div>
+    <div>
+      <p class="eyebrow">ENGRAVING</p>
+      <h2>그림책 표지에 새기는<br>우리 아이 이름</h2>
+      <p class="lead">책 표지 모양의 옆판에 이름과 날짜를 금색으로 새겨 드려요. 사진 없이도 "내 아이"의 이야기가 됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THREE NIGHTS -->
+<section>
+  <div class="wrap rv">
+    <div class="center">
+      <p class="eyebrow">THREE NIGHTS</p>
+      <h2>세 밤에 나눠 완성하는<br>엄마만의 시간</h2>
+      <p class="lead">육아 스트레스가 조립 스트레스로 이어지지 않도록, 아이를 재운 뒤 하루 30~40분씩 한 단계만 끝내면 돼요.</p>
+    </div>
+    <div class="nights">
+      <div class="night"><div class="n">1</div><h3>첫째 밤</h3><p>단계별 부품 봉투 하나. 도중에 멈춰도 부담 없는 만큼만.</p></div>
+      <div class="night"><div class="n">2</div><h3>둘째 밤</h3><p>미리 색칠된 부품을 본드 없이 끼우기만 하면 돼요.</p></div>
+      <div class="night"><div class="n">3</div><h3>셋째 밤</h3><p>배선이 끝난 조명을 켜면, 달이 환해져요.</p></div>
+    </div>
+    <div class="compare">
+      <div class="h"><span>&nbsp;</span><span>일반 북눅</span><span>달을 수확하는 농장</span></div>
+      <div><span>조립 시간</span><span>6~8시간</span><span><span class="ph">○시간</span> · 세 밤 분할</span></div>
+      <div><span>스트레스</span><span>자잘한 부품, 배선, 본드</span><span>배선 완료 · 사전 색칠 · 본드 없음</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GIFT -->
+<section>
+  <div class="wrap center rv">
+    <p class="eyebrow">FOR SOMEONE YOU LOVE</p>
+    <h2>선물하시나요?</h2>
+    <p class="lead">"너를 위해서라면 별도 달도 따다 줄 수 있어." 쑥스러워 말로 못 한 그 마음을, 진짜 달을 따는 장면으로 건네 보세요.</p>
+    <div class="gift-list" style="text-align:left">
+      <div class="gift"><div class="to">남편 → 아내에게</div><p>"말로는 못 했지만, 정말 달을 따다 주고 싶었어."</p></div>
+      <div class="gift"><div class="to">연인에게</div><p>"너를 위해서라면 달도 따다 줄 수 있어. 진짜로."</p></div>
+      <div class="gift"><div class="to">사랑하는 모든 사람에게</div><p>"당신에게 달을 따다 주는 이야기, 선물해요."</p></div>
+    </div>
+    <p class="fine" style="margin-top:22px">성인 실루엣 · 선물 포장 옵션도 준비하고 있어요.</p>
+  </div>
+</section>
+
+<!-- REWARDS -->
+<section id="rewards">
+  <div class="wrap rv">
+    <div class="center">
+      <p class="eyebrow">REWARD</p>
+      <h2>구성 미리 보기</h2>
+      <p class="lead">구성과 가격은 오픈 때 확정해 알려 드려요.</p>
+    </div>
+    <div class="rewards">
+      <div class="reward">
+        <h3>달 하나 (딸 실루엣)</h3>
+        <div class="price"><span class="ph">○○,○○○원</span></div>
+        <ul><li>달을 수확하는 농장 키트 1세트</li><li>딸 실루엣 · 이름 각인</li><li>무드등 LED 포함</li></ul>
+        <a href="#notify">알림 받기</a>
+      </div>
+      <div class="reward best">
+        <span class="badge">추천</span>
+        <h3>달 하나 + 실루엣 추가</h3>
+        <div class="price"><span class="ph">○○,○○○원</span></div>
+        <ul><li>기본 키트 1세트</li><li>실루엣 1종 추가 (아들 · 여성 · 남성 중 선택)</li><li>이름 각인</li></ul>
+        <a href="#notify">알림 받기</a>
+      </div>
+      <div class="reward">
+        <h3>선물용 달 하나</h3>
+        <div class="price"><span class="ph">○○,○○○원</span></div>
+        <ul><li>받는 사람에 맞춘 실루엣 선택</li><li>선물 포장</li><li>마음을 적는 카드</li></ul>
+        <a href="#notify">알림 받기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="notify">
+  <div class="wrap rv">
+    <div class="moon-big" aria-hidden="true"></div>
+    <h2>"엄마, 내가 달 따다 줄게."</h2>
+    <p class="lead">오늘 밤, 나를 위한 작은 농장이 문을 열 준비를 하고 있어요.<br>엄마도 위로받아도 돼요.</p>
+    <form class="notify" id="notifyForm">
+      <input type="email" required placeholder="이메일 주소" aria-label="이메일 주소">
+      <button class="btn" type="submit">오픈 알림 받기</button>
+    </form>
+    <p class="thanks" id="thanks">☾ 고마워요. 달이 뜨면 가장 먼저 알려 드릴게요.</p>
+    <p class="fine">오픈 소식 안내 외의 용도로 사용하지 않아요.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    달을 수확하는 농장 · 북눅 · 미니어처하우스 · 무드등<br>
+    본 제품은 엄마를 위한 인테리어 소품이며 만 14세 이상 권장입니다.<br>
+    페이지 내 이미지는 이미지 컷이며 실제 제품과 다를 수 있습니다.
+  </div>
+</footer>
+
+<script>
+  // 상품 상세 페이지 안에 들어갈 때(?embed=1): 높이를 부모 페이지에 알려 줌
+  if (document.documentElement.classList.contains('embed')){
+    const send = () => parent.postMessage({ bnH: document.body.offsetHeight }, '*');
+    new ResizeObserver(send).observe(document.body); addEventListener('load', send);
+  }
+  // 불 켜기/끄기
+  const mock = document.getElementById('mock');
+  const lightBtn = document.getElementById('lightBtn');
+  lightBtn.addEventListener('click', () => {
+    mock.classList.toggle('off');
+    lightBtn.textContent = mock.classList.contains('off') ? '☾ 불 켜기' : '☾ 불 끄기';
+  });
+
+  // 스크롤 등장
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .12 });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  // 알림 신청 (화면 처리만 있음 — 저장 기능은 아직 연결 전)
+  document.getElementById('notifyForm').addEventListener('submit', e => {
+    e.preventDefault();
+    e.target.style.display = 'none';
+    document.getElementById('thanks').style.display = 'block';
+  });
+</script>
+</body>
+</html>
