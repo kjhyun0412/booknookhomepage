@@ -125,7 +125,7 @@ function renderChrome(){
       <button class="icon-btn menu-btn" id="openDrawer" aria-controls="drawer" aria-expanded="false" aria-label="전체 메뉴 열기">${I('menu')}<span class="lbl">메뉴</span></button>
       <a class="logo" href="${HOME}" aria-label="BookNook 홈">
         <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="9" y="4" width="22" height="32" rx="3" fill="#2B2018"/><rect x="13" y="8" width="14" height="22" fill="#F3B66B"/><path d="M13 30 18 22h4l5 8z" fill="#5A4030"/><rect x="18.5" y="15" width="3" height="8" fill="#FFF1C2"/><rect x="4" y="12" width="5" height="24" rx="1" fill="#C8963E"/><rect x="31" y="16" width="5" height="20" rx="1" fill="#E04B2F"/></svg>
-        <span><b>BookNook</b><small>북눅</small></span>
+        <span><b>사이</b><small>북눅</small></span>
       </a>
       <nav class="lnb" aria-label="주 메뉴"><ul>
         ${lnb.map(([t, h, on, cls]) => `<li><a href="${h}"${cls ? ` class="${cls}"` : ''}${cur(on)}>${t}</a></li>`).join('')}
