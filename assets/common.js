@@ -99,7 +99,7 @@ function renderChrome(){
   const lnb = [
     ['전체상품', `${HOME}#pick`, false],
     ['시즌 에디션', 'product.html?id=season', page === 'product' && pid === 'season', 'hot'],
-    ['스트리트 에디션', 'product.html?id=street', page === 'product' && pid === 'street'],
+    ['할로윈 에디션', 'product.html?id=halloween', page === 'product' && pid === 'halloween'],
     ['스토리 에디션', 'product.html?id=story', page === 'product' && pid === 'story'],
     ['만드는 과정', `${HOME}#film`, false],
     ['공지사항', 'notice.html', page === 'notice']
@@ -143,11 +143,11 @@ function renderChrome(){
       <div class="wrap">
         <form class="search-form" action="search.html" method="get" role="search">
           <label class="sr-only" for="q">상품 검색</label>
-          <input id="q" name="q" type="search" placeholder="크리스마스, 꽃 골목, 달빛 동화…" autocomplete="off" value="${esc(params.get('q') || '')}">
+          <input id="q" name="q" type="search" placeholder="크리스마스, 할로윈, 달빛 동화…" autocomplete="off" value="${esc(params.get('q') || '')}">
           <button class="btn" type="submit">검색</button>
         </form>
         <div class="chips"><span>추천 검색어</span>
-          ${['크리스마스','파리','달빛','선물','LED'].map(k => `<a href="search.html?q=${encodeURIComponent(k)}">${k}</a>`).join('')}
+          ${['크리스마스','할로윈','달빛','선물','LED'].map(k => `<a href="search.html?q=${encodeURIComponent(k)}">${k}</a>`).join('')}
         </div>
       </div>
     </div>
