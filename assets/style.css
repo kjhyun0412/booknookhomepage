@@ -50,7 +50,7 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 .header{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--line)}
 .header-row{display:flex;align-items:center;gap:clamp(8px,2vw,28px);height:72px}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex:none}
-.logo svg{width:34px;height:34px}
+.logo img{height:40px;width:auto;flex:none}
 .logo b{font-size:1.4rem;letter-spacing:-.02em;font-weight:900}
 .logo small{display:block;font-size:.64rem;color:var(--muted);letter-spacing:.28em;margin-top:-5px}
 .lnb{flex:1;display:flex;justify-content:center}
