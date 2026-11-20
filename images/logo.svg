@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 100 960 880" role="img" aria-label="사이 로고">
+  <!-- 문 (왼쪽) -->
+  <rect x="83" y="269" width="46" height="683" fill="#66391b"/>
+  <polygon points="129,269 242,366 242,880 129,952" fill="#915428"/>
+  <!-- 문 (오른쪽) -->
+  <polygon points="950,269 837,366 837,880 950,952" fill="#915428"/>
+  <rect x="950" y="269" width="46" height="683" fill="#66391b"/>
+  <!-- 조명 -->
+  <path d="M496 355a38 38 0 0 0 76 0z" fill="#f7f5bb"/>
+  <rect x="526" y="127" width="16" height="123" fill="#343635"/>
+  <polygon points="542,250 631,346 627,355 441,355 437,346 526,250" fill="#343635"/>
+  <!-- ㅅ (사다리) -->
+  <g fill="#915428">
+    <rect x="369" y="522" width="70" height="16" rx="4"/>
+    <polygon points="380,538 404,550 307,923 269,923"/>
+    <polygon points="428,538 539,923 501,923 404,550"/>
+    <rect x="331" y="650" width="18" height="17" rx="3"/>
+    <rect x="310" y="733" width="16" height="17" rx="3"/>
+    <rect x="288" y="817" width="14" height="17" rx="3"/>
+    <rect x="459" y="650" width="18" height="17" rx="3"/>
+    <rect x="483" y="733" width="17" height="17" rx="3"/>
+    <rect x="507" y="817" width="17" height="17" rx="3"/>
+  </g>
+  <!-- ㅇ -->
+  <path fill="#915428" fill-rule="evenodd" d="M688 520c-67 0-122 91-122 203s55 203 122 203 122-91 122-203-55-203-122-203zm0 17c43 0 77 83 77 186s-34 186-77 186-77-83-77-186 34-186 77-186z"/>
+</svg>
